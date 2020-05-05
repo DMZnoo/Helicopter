@@ -9,7 +9,7 @@
 // Include GLFW
 #include "Application.hpp"
 // Include GLM
-std::string ROOT = "/Users/daniel/Downloads/opengl_assingment_2/Source/Resources/";
+std::string ROOT = "/Users/daniel/Downloads/Helicopter/Source/Resources/";
 
 
 
