@@ -14,19 +14,18 @@ unsigned int BaseTexture::LoadTexture(char const * path) {
         {
             GLCall(glBindTexture(GL_TEXTURE_2D, textID));
             glEnable(GL_TEXTURE_2D);
-//            GLenum format;
-//            switch(number_of_components)
-//            {
-//                    case 1:
-//                       format = GL_RED;
-//                    case 3:
-//                        format = GL_RGB;
-//                    case 4:
-//                        format = GL_RGBA;
-//            };
-        
-
-
+            GLenum format;
+            switch(number_of_components)
+            {
+                    case 1:
+                       format = GL_RED;
+                    case 3:
+                        format = GL_RGB;
+                        
+                    case 4:
+                        format = GL_RGBA;
+                        
+            };
             GLCall(glTexImage2D(GL_TEXTURE_2D,0,GL_RGB8,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data));
             GLCall(glGenerateMipmap(GL_TEXTURE_2D));
             

@@ -72,7 +72,8 @@ void Application::run() {
     glfwSetCursorPosCallback(window, mouse_callback);
     Camera camera(width,height);
     CubeRenderer cubeRenderer;
-    PlatformRenderer platformRenderer;
+    PlatformRenderer platformRenderer("obj/landing.obj", "platform");
+    PlatformRenderer guy("nanosuit/nanosuit.obj","nanosuit");
     LineRenderer xcoor("green.jpg",0);
     LineRenderer ycoor("red.jpg",1);
     LineRenderer zcoor("blue.jpg",2);
@@ -95,6 +96,7 @@ void Application::run() {
 //         camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
          cubeRenderer.render(camera);
          platformRenderer.render(camera);
+         guy.render(camera);
          xcoor.render(camera);
          ycoor.render(camera);
          zcoor.render(camera);

@@ -12,7 +12,7 @@
 #include "../Model/Model.hpp"
 class PlatformRenderer {
   public:
-    PlatformRenderer();
+    PlatformRenderer(std::string path,std::string type);
     
     void render( Camera &camera);
 
@@ -20,6 +20,7 @@ class PlatformRenderer {
     Model m_platform;
     PlatformShader m_shader;
     unsigned int diffuse_n,specular_n,normal_n,height_n;
+    std::string typeModel;
 };
 
 

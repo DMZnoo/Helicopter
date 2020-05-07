@@ -2,6 +2,7 @@
 
 void Model::loadModel(char const* path)
 {
+    this->objpath = std::string(path);
    //this constructor is used when we have a model to load. Otherwise default is called
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -80,8 +81,12 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
                 aiString path;
                 material -> GetTexture(it->second, a, &path);
                 Texture texture;
-                char* c = const_cast<char*>(IO_Util::concat("obj/"+std::string(path.C_Str())).c_str());
-                texture.textID = m_texture.LoadTexture(c);
+                size_t index = 0;
+                std::string temp = objpath.substr(ROOT.length(),objpath.length());
+                
+                index = temp.find_last_of("/\\");
+                std::cout << temp.substr(0,index)<<std::endl;
+                texture.textID = m_texture.LoadTexture(IO_Util::concat(temp.substr(0,index) + "/" + std::string(path.C_Str())).c_str());
                 texture.type = it->first;
                 m_mesh.textures.push_back(texture);
             }

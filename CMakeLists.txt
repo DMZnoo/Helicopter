@@ -59,8 +59,7 @@ file(GLOB_RECURSE SRC
 	"Source/*.hpp"
 	"Source/*.cpp"
 	"Source/GLSL/*.glsl"
-	"Source/Resources/*.png"
-	"Source/Resources/obj/*.obj"
+	"Source/Resources/*.jpg"
 
 )
 add_executable(Assignment_2_Jinwoo_Lee ${SRC})
@@ -87,13 +86,12 @@ SOURCE_GROUP(Renderer REGULAR_EXPRESSION ".*/Renderer/.*" )
 SOURCE_GROUP(Model REGULAR_EXPRESSION ".*/Model/.*" )
 SOURCE_GROUP(Resources REGULAR_EXPRESSION ".*/Resources/.*" )
 SOURCE_GROUP(Texture REGULAR_EXPRESSION ".*/Texture/.*" )
-SOURCE_GROUP(obj REGULAR_EXPRESSION ".*/Resources/obj/.*" )
 
 
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 add_custom_command(
    TARGET Assignment_2_Jinwoo_Lee POST_BUILD
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Source ${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/Source/"
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Assignment_2_Jinwoo_Lee${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/Source/"
 )
 
 

@@ -58,6 +58,7 @@ class Model : public NonCopyable {
     std::vector<Mesh> modelInfo;
     Mesh m_mesh;
     BaseTexture m_texture;
+    std::string objpath;
 };
 
 #endif /* Model_hpp */

@@ -7,9 +7,11 @@
 
 #include "PlatformRenderer.hpp"
 extern std::string ROOT;
-PlatformRenderer::PlatformRenderer() {
-    m_platform.loadModel(IO_Util::concat("obj/landing.obj").c_str());
+PlatformRenderer::PlatformRenderer(std::string path, std::string type) {
+    
+    m_platform.loadModel(IO_Util::concat(path.c_str()).c_str());
     m_shader.use();
+    this->typeModel = type;
     
 };
 
@@ -22,7 +24,17 @@ void PlatformRenderer::render(Camera &camera) {
     m_shader.use();
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
     m_shader.SetViewMatrix(camera.getViewMatrix());
-    m_shader.SetModelMatrix();
+    glm::mat4 model = glm::mat4(1.0f);
+    if(typeModel == "platform")
+    {
+        model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 0.2f, 1.0f));
+    } else if (typeModel == "nanosuit")
+    {
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+    }
+
+    m_shader.SetModelMatrix(model);
     for(unsigned int i = 0; i < m_platform.getModelInfo().size(); i++)
     {
         diffuse_n = 1;specular_n = 1; normal_n = 1; height_n = 1;
