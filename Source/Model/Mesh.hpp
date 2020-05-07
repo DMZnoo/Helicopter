@@ -29,7 +29,12 @@ struct Mesh
     std::vector<Vertex>       vertices;
     std::vector<unsigned int> indices;
     std::vector<Texture>      textures;
-    
+    void reset()
+    {
+        std::vector<Vertex>().swap(vertices);
+        std::vector<unsigned int>().swap(indices);
+        std::vector<Texture>().swap(textures);
+    }
     
 };
 

@@ -6,31 +6,35 @@
 //
 
 #include "BaseTexture.hpp"
+
 unsigned int BaseTexture::LoadTexture(char const * path) {
     GLCall(glGenTextures(1,&textID));
     unsigned char *data = stbi_load(path, &width, &height, &number_of_components, 0);
     if(data)
         {
-            GLenum format;
-            switch(number_of_components)
-            {
-                    case 1:
-                       format = GL_RED;
-                    case 3:
-                        format = GL_RGB;
-                    case 4:
-                        format = GL_RGBA;
-            };
-        
             GLCall(glBindTexture(GL_TEXTURE_2D, textID));
-            GLCall(glTexImage2D(GL_TEXTURE_2D,0,format,width,height,0,format,GL_UNSIGNED_BYTE,data));
+            glEnable(GL_TEXTURE_2D);
+//            GLenum format;
+//            switch(number_of_components)
+//            {
+//                    case 1:
+//                       format = GL_RED;
+//                    case 3:
+//                        format = GL_RGB;
+//                    case 4:
+//                        format = GL_RGBA;
+//            };
+        
+
+
+            GLCall(glTexImage2D(GL_TEXTURE_2D,0,GL_RGB8,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data));
             GLCall(glGenerateMipmap(GL_TEXTURE_2D));
             
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-        
+            stbi_set_flip_vertically_on_load(true);
             stbi_image_free(data);
         }
     else

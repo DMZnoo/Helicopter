@@ -22,6 +22,6 @@ void CubeShader::SetViewMatrix(glm::mat4 view) {
     Shader::setMat4("view",view);
 };
 
-void CubeShader::SetModelMatrix() { 
-    Shader::setMat4("model",glm::mat4(1.0));
+void CubeShader::SetModelMatrix(glm::mat4 model) {
+    Shader::setMat4("model",model);
 };

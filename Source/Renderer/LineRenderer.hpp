@@ -10,17 +10,19 @@
 
 #include "../Shader/CubeShader.hpp"
 #include "../Control/Camera.hpp"
-#include "../Model/Model.hpp"
+#include "../Model/CylinderModel.hpp"
 class LineRenderer {
   public:
-    LineRenderer(float length,float radius);
+    LineRenderer(std::string path,unsigned int direction);
     
     void render( Camera &camera);
 
   private:
-    Model m_line;
+    CylinderModel m_line;
     CubeShader m_shader;
-    
+    BaseTexture m_lineTexture;
+    unsigned int xyz;
+    float val;
 };
 
 #endif /* LineRenderer_hpp */

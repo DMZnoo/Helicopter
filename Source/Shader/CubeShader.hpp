@@ -14,7 +14,7 @@ public:
     CubeShader();
     void SetProjectionMatrix(glm::mat4 proj);
     void SetViewMatrix(glm::mat4 view);
-    void SetModelMatrix();
+    void SetModelMatrix(glm::mat4 model);
 };
 
 #endif /* CubeShader_hpp */

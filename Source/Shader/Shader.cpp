@@ -134,6 +134,11 @@ void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
     
 }
 
+unsigned int Shader::getUniform(std::string name)
+{
+    return glGetUniformLocation(ProgramID,name.c_str());
+};
+
 Shader::~Shader()
 {
     glDeleteProgram(ProgramID);

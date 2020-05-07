@@ -25,9 +25,10 @@
 
 
 
-
+extern const float PI;
 class Model : public NonCopyable {
   public:
+    
     Model() = default;
     void loadModel(char const*model);
     Model(Model &&other);

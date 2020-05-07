@@ -14,7 +14,7 @@
 #include "Renderer/SkyRenderer.hpp"
 #include "Renderer/CubeRenderer.hpp"
 #include "Renderer/PlatformRenderer.hpp"
-
+#include "Renderer/LineRenderer.hpp"
 class Application
 {
 public:

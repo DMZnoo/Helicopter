@@ -73,10 +73,13 @@ void Application::run() {
     Camera camera(width,height);
     CubeRenderer cubeRenderer;
     PlatformRenderer platformRenderer;
+    LineRenderer xcoor("green.jpg",0);
+    LineRenderer ycoor("red.jpg",1);
+    LineRenderer zcoor("blue.jpg",2);
     SkyboxRenderer skyRenderer;
     
     glEnable(GL_DEPTH_TEST);
-    camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
+//    camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
      do{
          
          glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
@@ -91,8 +94,11 @@ void Application::run() {
 //         camera.update();
 //         camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
          cubeRenderer.render(camera);
-         skyRenderer.render(camera);
          platformRenderer.render(camera);
+         xcoor.render(camera);
+         ycoor.render(camera);
+         zcoor.render(camera);
+         skyRenderer.render(camera);
          // Swap buffers
          glfwSwapBuffers(window);
          glfwPollEvents();

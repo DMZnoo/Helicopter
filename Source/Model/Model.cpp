@@ -80,15 +80,17 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
                 aiString path;
                 material -> GetTexture(it->second, a, &path);
                 Texture texture;
-                char* c = const_cast<char*>(IO_Util::concat("/obj/"+std::string(path.C_Str())).c_str());
+                char* c = const_cast<char*>(IO_Util::concat("obj/"+std::string(path.C_Str())).c_str());
                 texture.textID = m_texture.LoadTexture(c);
                 texture.type = it->first;
                 m_mesh.textures.push_back(texture);
             }
             std::cout << material -> GetTextureCount(it->second) << std::endl;
         }
-        modelInfo.push_back(m_mesh);
         bindMesh(&m_mesh);
+        modelInfo.push_back(m_mesh);
+        m_mesh.reset();
+        
     }
     
     for(unsigned int i = 0; i < node -> mNumChildren; i++)
@@ -123,7 +125,7 @@ void Model::bindMesh(Mesh* mesh)
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
-    glBindVertexArray(0);
+//    glBindVertexArray(0);
     
     
     

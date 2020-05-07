@@ -71,7 +71,7 @@ void CubeRenderer::render(Camera &camera) {
     m_shader.use();
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
     m_shader.SetViewMatrix(camera.getViewMatrix());
-    m_shader.SetModelMatrix();
+    m_shader.SetModelMatrix(glm::mat4(1.0f));
     m_cube.bindVAO();
     m_cubeTexture.Bind2DTexture();
     GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));

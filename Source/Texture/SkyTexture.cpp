@@ -10,7 +10,7 @@
 void SkyTexture::LoadCubeMap(std::vector<std::string> sides) {
     GLCall(glGenTextures(1,&textID));
     GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, textID));
-    
+    stbi_set_flip_vertically_on_load(false);
     for(unsigned int i = 0; i < 6; i++)
         {
             unsigned char *data = stbi_load(sides[i].c_str(), &width, &height, &number_of_components, 0);
@@ -31,7 +31,7 @@ void SkyTexture::LoadCubeMap(std::vector<std::string> sides) {
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
-        
+    
 };
 
 

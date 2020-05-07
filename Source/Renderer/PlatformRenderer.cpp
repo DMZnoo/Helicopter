@@ -8,14 +8,16 @@
 #include "PlatformRenderer.hpp"
 extern std::string ROOT;
 PlatformRenderer::PlatformRenderer() {
-    m_platform.loadModel(IO_Util::concat("/obj/landing.obj").c_str());
+    m_platform.loadModel(IO_Util::concat("obj/landing.obj").c_str());
     m_shader.use();
     
 };
 
 void PlatformRenderer::render(Camera &camera) { 
     
-    
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
     GLCall(glDepthFunc(GL_LESS));
     m_shader.use();
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
@@ -44,6 +46,7 @@ void PlatformRenderer::render(Camera &camera) {
         }
         m_platform.bindVAO();
         GLCall(glDrawElements(GL_TRIANGLES,m_platform.getModelInfo()[i].indices.size(),GL_UNSIGNED_INT,0));
+        glDisable(GL_CULL_FACE);
         glBindVertexArray(0);
         glActiveTexture(GL_TEXTURE0);
         glDisableVertexAttribArray(0);
