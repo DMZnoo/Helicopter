@@ -19,7 +19,7 @@
 #include "../Debugger.hpp"
 #include "../Texture/BaseTexture.hpp"
 #include "../Utility/IO_Util.hpp"
-#include <unordered_map>
+#include <map>
 #include <GL/glew.h>
 #include <vector>
 
@@ -44,7 +44,7 @@ class Model : public NonCopyable {
     void bindVBO() const;
     void bindIBO() const;
     const std::vector<Mesh>& getModelInfo();
-    int getIndicesCount() const;
+    unsigned int getIndicesCount() const;
     void assembleModel(aiNode *node, const aiScene *scene);
     void bindMesh(Mesh* mesh);
     const RenderInfo &getRendererInfo() const;

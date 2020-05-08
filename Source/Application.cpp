@@ -73,10 +73,18 @@ void Application::run() {
     Camera camera(width,height);
     CubeRenderer cubeRenderer;
     PlatformRenderer platformRenderer("obj/landing.obj", "platform");
-    PlatformRenderer guy("nanosuit/nanosuit.obj","nanosuit");
-    LineRenderer xcoor("green.jpg",0);
+    std::cout << "GUY" << std::endl;
+    stbi_set_flip_vertically_on_load(false);
+    PlatformRenderer guy("cyborg/cyborg.obj","nanosuit");
+    std::cout << "DONE" << std::endl;
+    LineRenderer xcoor("blue.jpg",2);
     LineRenderer ycoor("red.jpg",1);
-    LineRenderer zcoor("blue.jpg",2);
+    LineRenderer zcoor("green.jpg",0);
+    
+    
+    LineRenderer gridx("blue.jpg",2);
+    LineRenderer gridy("red.jpg",1);
+
     SkyboxRenderer skyRenderer;
     
     glEnable(GL_DEPTH_TEST);
@@ -100,6 +108,8 @@ void Application::run() {
          xcoor.render(camera);
          ycoor.render(camera);
          zcoor.render(camera);
+         gridx.render(camera);
+         gridy.render(camera);
          skyRenderer.render(camera);
          // Swap buffers
          glfwSwapBuffers(window);

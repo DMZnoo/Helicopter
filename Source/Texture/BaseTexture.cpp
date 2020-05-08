@@ -12,8 +12,8 @@ unsigned int BaseTexture::LoadTexture(char const * path) {
     unsigned char *data = stbi_load(path, &width, &height, &number_of_components, 0);
     if(data)
         {
-            GLCall(glBindTexture(GL_TEXTURE_2D, textID));
             glEnable(GL_TEXTURE_2D);
+            GLCall(glBindTexture(GL_TEXTURE_2D, textID));
             GLenum format;
             switch(number_of_components)
             {

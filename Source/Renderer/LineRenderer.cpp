@@ -26,26 +26,55 @@ void LineRenderer::render(Camera &camera)
     m_shader.use();
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
     m_shader.SetViewMatrix(camera.getViewMatrix());
-//    val += 0.05f;
-    glm::mat4 model = glm::mat4(1.0f);
-//    model = glm::translate(model, glm::vec3(val,0,0));
+    if(!ACTIVATE_GRID)
+    {
+            glm::mat4 model = glm::mat4(1.0f);
+            if (xyz == 0)
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1,0,0));
+            else if (xyz == 1)
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
+            else
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,0,1));
+            
+            
+            m_shader.SetModelMatrix(model);
+            
+            m_line.bindVAO();
+            m_lineTexture.Bind2DTexture();
+            GLCall(glDrawElements(GL_TRIANGLES,m_line.getIndicesCount(),GL_UNSIGNED_INT,0));
 
-    if (xyz == 0)
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1,0,0));
-    else if (xyz == 1)
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
-    else
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,0,1));
-    
-    
-    m_shader.SetModelMatrix(model);
-    
-    m_line.bindVAO();
-    m_lineTexture.Bind2DTexture();
-    GLCall(glDrawElements(GL_TRIANGLES,m_line.getIndicesCount(),GL_UNSIGNED_INT,0));
+            glBindVertexArray(0);
+            glActiveTexture(GL_TEXTURE0);
+            glDisableVertexAttribArray(0);
+            glDisable(GL_CULL_FACE);
+    } else
+    {
+        for(int i = -15; i < 15; i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            if (xyz == 1)
+            {
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
+                model = glm::translate(model, glm::vec3(i,0,0));
+            }
+            else
+            {
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,0,1));
+                model = glm::translate(model, glm::vec3(0,i,0));
+            }
+            
+            
+            m_shader.SetModelMatrix(model);
+            
+            m_line.bindVAO();
+            m_lineTexture.Bind2DTexture();
+            GLCall(glDrawElements(GL_TRIANGLES,m_line.getIndicesCount(),GL_UNSIGNED_INT,0));
 
-    glBindVertexArray(0);
-    glActiveTexture(GL_TEXTURE0);
-    glDisableVertexAttribArray(0);
-    glDisable(GL_CULL_FACE);
+            glBindVertexArray(0);
+            glActiveTexture(GL_TEXTURE0);
+            glDisableVertexAttribArray(0);
+            glDisable(GL_CULL_FACE);
+        }
+    }
+
 }

@@ -9,16 +9,20 @@
 #define RendererInfo_hpp
 
 struct RenderInfo {
-    unsigned int vao = 0;
-    unsigned int vbo = 0;
-    unsigned int ibo = 0;
     unsigned int indicesCount = 0;
+    unsigned int vao,vbo,ibo;
+    std::vector<unsigned int> vao_list;
+    std::vector<unsigned int> vbo_list;
+    std::vector<unsigned int> ibo_list;
 
     inline void reset()
     {
         vao = 0;
         vbo = 0;
         ibo = 0;
+        std::vector<unsigned int>().swap(vao_list);
+        std::vector<unsigned int>().swap(vbo_list);
+        std::vector<unsigned int>().swap(ibo_list);
         indicesCount = 0;
     }
 };

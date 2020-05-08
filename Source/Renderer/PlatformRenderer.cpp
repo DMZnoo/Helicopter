@@ -31,12 +31,17 @@ void PlatformRenderer::render(Camera &camera) {
         model = glm::scale(model, glm::vec3(1.0f, 0.2f, 1.0f));
     } else if (typeModel == "nanosuit")
     {
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        glDisable(GL_CULL_FACE);
+        model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+//        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,1));
     }
 
     m_shader.SetModelMatrix(model);
+    
     for(unsigned int i = 0; i < m_platform.getModelInfo().size(); i++)
     {
+        
         diffuse_n = 1;specular_n = 1; normal_n = 1; height_n = 1;
         for(unsigned int n = 0; n < m_platform.getModelInfo()[i].textures.size();n++)
         {
@@ -46,22 +51,24 @@ void PlatformRenderer::render(Camera &camera) {
             if(type == "texture_diffuse")
                 num = std::to_string(diffuse_n++);
             else if (type == "texture_specular")
-                num = std::to_string(diffuse_n++);
+                num = std::to_string(specular_n++);
             else if (type == "texture_normal")
                 num = std::to_string(normal_n++);
             else
                 num = std::to_string(height_n++);
             
+            std::cout << num << std::endl;
             m_shader.setInt((type+num).c_str(),i);
+            
             glBindTexture(GL_TEXTURE_2D,m_platform.getModelInfo()[i].textures[n].textID);
             
         }
-        m_platform.bindVAO();
+        GLCall(glBindVertexArray(m_platform.getRendererInfo().vao_list[i]));
         GLCall(glDrawElements(GL_TRIANGLES,m_platform.getModelInfo()[i].indices.size(),GL_UNSIGNED_INT,0));
         glDisable(GL_CULL_FACE);
         glBindVertexArray(0);
-        glActiveTexture(GL_TEXTURE0);
-        glDisableVertexAttribArray(0);
+//        glActiveTexture(GL_TEXTURE0);
+//        glDisableVertexAttribArray(0);
     }
 
     

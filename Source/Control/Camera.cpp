@@ -89,6 +89,14 @@ void Camera::update()
         {
             position += glm::vec3(0,-1,0) * deltaTime * speed;
         }
+        if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+        {
+            ACTIVATE_GRID = true;
+        }
+        if(glfwGetKey(window, GLFW_KEY_1) == GLFW_RELEASE)
+        {
+            ACTIVATE_GRID = false;
+        }
         float FoV = initialFOV;
     
         // Projection matrix : 45∞ Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units

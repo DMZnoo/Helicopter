@@ -20,6 +20,7 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
 {
     for (unsigned int n = 0; n < node->mNumMeshes; n++)
     {
+        
         aiMesh* mesh = scene->mMeshes[node->mMeshes[n]];
         for(unsigned int x = 0; x < mesh->mNumVertices; x++)
         {
@@ -69,29 +70,45 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
         }
         
         aiMaterial* material = scene -> mMaterials[mesh->mMaterialIndex];
-        std::unordered_map<std::string, aiTextureType> materialTexture;
-        materialTexture["texture_diffuse"] = aiTextureType_DIFFUSE;
-        materialTexture["texture_specular"] = aiTextureType_SPECULAR;
-        materialTexture["texture_normal"] = aiTextureType_HEIGHT;
-        materialTexture["texture_height"] = aiTextureType_AMBIENT;
-        for(auto it = materialTexture.begin(); it != materialTexture.end(); it++)
+//        std::map<std::string, aiTextureType> materialTexture;
+        
+        std::map< unsigned int, std::map<std::string,aiTextureType> > materialTexture;
+        materialTexture[0]["texture_diffuse"] = aiTextureType_DIFFUSE;
+        materialTexture[1]["texture_specular"] = aiTextureType_SPECULAR;
+        materialTexture[2]["texture_normal"] = aiTextureType_HEIGHT;
+        materialTexture[3]["texture_height"] = aiTextureType_AMBIENT;
+//        std::vector<Texture> loaded_textures;
+        std::vector<Texture> textures;
+        for(auto ptr = materialTexture.begin(); ptr != materialTexture.end(); ptr++)
         {
-            for(unsigned int a = 0; a < material -> GetTextureCount(it->second);a++)
+            std::cout << ptr->first << std::endl;
+            for(auto it = ptr->second.begin(); it != ptr->second.end(); it++)
             {
-                aiString path;
-                material -> GetTexture(it->second, a, &path);
-                Texture texture;
-                size_t index = 0;
-                std::string temp = objpath.substr(ROOT.length(),objpath.length());
-                
-                index = temp.find_last_of("/\\");
-                std::cout << temp.substr(0,index)<<std::endl;
-                texture.textID = m_texture.LoadTexture(IO_Util::concat(temp.substr(0,index) + "/" + std::string(path.C_Str())).c_str());
-                texture.type = it->first;
-                m_mesh.textures.push_back(texture);
+                std::cout <<"BEFORE: "<< it -> first << std::endl;
+                for(unsigned int a = 0; a < material -> GetTextureCount(it->second);a++)
+                {
+                    aiString path;
+                    material -> GetTexture(it->second, a, &path);
+                    std::cout << path.C_Str() << std::endl;
+                    std::cout <<"LOOPING.."<< std::endl;
+                    Texture texture;
+                    size_t index = 0;
+                    std::string temp = objpath.substr(ROOT.length(),objpath.length());
+                    index = temp.find_last_of("/\\");
+                    texture.textID = m_texture.LoadTexture(IO_Util::concat(temp.substr(0,index) + "/" + std::string(path.C_Str())).c_str());
+                    texture.type = it->first;
+                    texture.name = path.C_Str();
+                    textures.push_back(texture);
+                }
+                std::cout << "INSERTED" << std::endl;
+                m_mesh.textures.insert(m_mesh.textures.end(),textures.begin(),textures.end());
+                std::vector<Texture>().swap(textures);
             }
-            std::cout << material -> GetTextureCount(it->second) << std::endl;
+            
+           
+            
         }
+        std::cout << "EXITED.."<< std::endl;
         bindMesh(&m_mesh);
         modelInfo.push_back(m_mesh);
         m_mesh.reset();
@@ -108,9 +125,9 @@ void Model::bindMesh(Mesh* mesh)
 {
     genVAO();
     genVBO();
-    genIBO();
     bindVAO();
     bindVBO();
+    
     GLCall(glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), mesh->vertices.data(), GL_STATIC_DRAW));
     addIBO(mesh->indices);
 
@@ -130,7 +147,7 @@ void Model::bindMesh(Mesh* mesh)
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
-//    glBindVertexArray(0);
+    glBindVertexArray(0);
     
     
     
@@ -177,7 +194,7 @@ void Model::genVAO()
 //        drop();
 
     GLCall(glGenVertexArrays(1, &m_renderInfo.vao));
-    
+    m_renderInfo.vao_list.push_back(m_renderInfo.vao);
 }
 
 void Model::genVBO()
@@ -185,6 +202,7 @@ void Model::genVBO()
 //    if(m_renderInfo.vbo != 0)
 //        drop();
     GLCall(glGenBuffers(1, &m_renderInfo.vbo));
+    m_renderInfo.vbo_list.push_back(m_renderInfo.vbo);
 }
 
 void Model::genIBO()
@@ -192,11 +210,13 @@ void Model::genIBO()
 //    if(m_renderInfo.ibo != 0)
 //        drop();
     GLCall(glGenBuffers(1, &m_renderInfo.ibo));
+    
 }
 
 void Model::bindVAO() const
 {
     GLCall(glBindVertexArray(m_renderInfo.vao));
+    
 }
 
 void Model::bindVBO() const
@@ -238,7 +258,8 @@ void Model::addAttribArray(int dimensions, unsigned int stride)
 void Model::addIBO(const std::vector<GLuint> &indices)
 {
     genIBO();
-    m_renderInfo.indicesCount = static_cast<GLuint>(indices.size());
+    m_renderInfo.indicesCount = indices.size();
+    m_renderInfo.ibo_list.push_back(m_renderInfo.indicesCount);
     bindIBO();
     
     GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
@@ -259,7 +280,7 @@ void Model::drop()
     m_renderInfo.reset();
 }
 
-int Model::getIndicesCount() const
+unsigned int Model::getIndicesCount() const
 {
     return m_renderInfo.indicesCount;
 }

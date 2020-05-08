@@ -11,6 +11,7 @@
 #include "../Shader/CubeShader.hpp"
 #include "../Control/Camera.hpp"
 #include "../Model/CylinderModel.hpp"
+extern bool ACTIVATE_GRID;
 class LineRenderer {
   public:
     LineRenderer(std::string path,unsigned int direction);

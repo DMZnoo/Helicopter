@@ -23,6 +23,7 @@ struct Vertex {
 struct Texture {
     unsigned int textID;
     std::string type;
+    std::string name;
 };
 struct Mesh
 {

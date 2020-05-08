@@ -11,7 +11,7 @@
 // Include GLM
 std::string ROOT = "/Users/daniel/Downloads/Helicopter/Source/Resources/";
 const float PI = acos(-1);
-
+bool ACTIVATE_GRID = false;
 
 
 

@@ -14,6 +14,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <glm/gtx/string_cast.hpp>
+extern bool ACTIVATE_GRID;
 class Camera
 {
 public:
