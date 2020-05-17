@@ -10,10 +10,6 @@
 
 #include "Controller.hpp"
 #include <glm/gtx/perpendicular.hpp>
-extern bool LOCK_ON_OBJECT;
-extern float PROPELLER_SPEED;
-extern bool ACTIVATE_GRID;
-extern float ACCELERATION;
 
 class CraftController : public Controller
 {

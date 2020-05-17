@@ -8,9 +8,6 @@
 #include "Application.hpp"
 GLFWwindow* window;
 unsigned int width,height;
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-bool init = true;
 Application::Application()
 {
     width = 1024;
@@ -100,7 +97,7 @@ void Application::run() {
          glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
          
          camera.update();
-         helicopter.render(camera);  
+         
          platformRenderer.render(camera);
 //
 //
@@ -115,7 +112,7 @@ void Application::run() {
          mainPropeller.render(camera);
          subPropeller.setLocation(glm::translate(helicopter.transferLocation(),glm::vec3(0.2f,5,-12.0f)));
          subPropeller.render(camera);
-
+         helicopter.render(camera);
          
          
          skyRenderer.render(camera);

@@ -9,7 +9,7 @@
 // Include GLFW
 #include "Application.hpp"
 // Include GLM
-std::string ROOT = "/Users/daniel/Downloads/Helicopter/Source/Resources/";
+std::string ROOT = "G:/Uni/OpenGL/Helicopter/Source/Resources/";
 const float PI = acos(-1);
 bool ACTIVATE_GRID = false;
 float PROPELLER_SPEED = 0.0f;

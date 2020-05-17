@@ -16,11 +16,11 @@ extern bool ACTIVATE_GRID;
 extern bool LOCK_ON_OBJECT;
 extern float PROPELLER_SPEED;
 extern float ACCELERATION;
+extern unsigned int width, height;
 class Controller
 {
 public:
     Controller();
-    Controller(glm::vec3 initPos, glm::vec3 initDir);
     virtual glm::vec3 updatePos();
     virtual glm::vec3 updateKeyboardInput();
     void setLocation(glm::vec3 newLocation);
@@ -29,7 +29,7 @@ public:
 private:
     float xTarget,yTarget,speed,movementSpeed;
     double xpos, ypos;
-    int windowWidth,windowHeight;
+
     glm::vec3 right;
     glm::vec3 up;
     glm::vec3 m_direction,m_position;

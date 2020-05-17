@@ -9,12 +9,12 @@
 extern GLFWwindow* window;
 
 Camera::Camera(int width, int height)
-:controller(glm::vec3(0,0,0),glm::vec3(0.f))
 {
     Position = glm::vec3(0,0,0);
     i_viewMatrix = glm::mat4(1.0f);
     i_projMatrix = glm::mat4(1.0f);
-    
+    objectPosition = glm::vec3(0.f);
+    RotatedAngle = 0.f;
 }
 
 void Camera::update()
@@ -37,7 +37,7 @@ void Camera::update()
         i_viewMatrix = glm::mat4(1.0f);
         i_viewMatrix = glm::lookAt(
                  Position,           // Camera's current position
-                 Direction + Position, // and looks here
+            Position+Direction, // and looks here
                  controller.getUpVector() // Head is up (set to 0,-1,0 to look upside-down)
             );
     } else
@@ -92,11 +92,6 @@ const glm::mat4& Camera::getViewMatrix()
 const glm::mat4& Camera::getProjMatrix()
 {
     return i_projMatrix;
-}
-
-const glm::mat4& Camera::getProjectionViewMatrix()
-{
-    return i_projViewMatrix;
 }
 
 void Camera::setViewMatrix(glm::mat4 viewMatrix)

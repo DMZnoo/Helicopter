@@ -10,18 +10,19 @@ extern GLFWwindow* window;
 
 Controller::Controller()
 {
-    
-}
-
-Controller::Controller(glm::vec3 initPos, glm::vec3 initDir) { 
     xTarget = glm::pi<float>();
     yTarget = 0.0f;
-    speed = 0.01f;
-    movementSpeed = 10.0f;
-    xpos = windowWidth/2;
-    ypos = windowHeight/2;
+    speed = 0.005f;
+    movementSpeed = 5.0f;
+    xpos = width / 2;
+    ypos = height / 2;
     landing = false;
+    m_position = glm::vec3(0, 0, -10);
+    m_direction = glm::vec3(0,0,1);
 }
+
+
+
 
 
 
@@ -36,8 +37,8 @@ glm::vec3 Controller::updatePos() {
     glfwGetCursorPos(window, &xpos, &ypos);
     
     // Compute new orientation
-    xTarget += speed * float(windowWidth/2 - xpos );
-    yTarget += speed * float( windowHeight/2 - ypos );
+    xTarget += speed * float(width/2 - xpos );
+    yTarget += speed * float(height/2 - ypos );
     
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
@@ -144,7 +145,7 @@ glm::vec3 Controller::updateKeyboardInput()
             PROPELLER_SPEED += ACCELERATION;
         }
     }
-    glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
+    glfwSetCursorPos(window, width/2, height/2);
     return m_direction;
     
         

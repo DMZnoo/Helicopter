@@ -26,6 +26,7 @@ unsigned int BaseTexture::LoadTexture(char const * path) {
                         format = GL_RGBA;
                         
             };
+
             GLCall(glTexImage2D(GL_TEXTURE_2D,0,GL_RGB8,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data));
             GLCall(glGenerateMipmap(GL_TEXTURE_2D));
             

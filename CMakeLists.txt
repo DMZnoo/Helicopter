@@ -86,6 +86,7 @@ SOURCE_GROUP(Renderer REGULAR_EXPRESSION ".*/Renderer/.*" )
 SOURCE_GROUP(Model REGULAR_EXPRESSION ".*/Model/.*" )
 SOURCE_GROUP(Resources REGULAR_EXPRESSION ".*/Resources/.*" )
 SOURCE_GROUP(Texture REGULAR_EXPRESSION ".*/Texture/.*" )
+SOURCE_GROUP(Entity REGULAR_EXPRESSION ".*/Entity/.*" )
 
 
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
