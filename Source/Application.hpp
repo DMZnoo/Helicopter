@@ -15,16 +15,18 @@
 #include "Renderer/CubeRenderer.hpp"
 #include "Renderer/PlatformRenderer.hpp"
 #include "Renderer/LineRenderer.hpp"
+#include "Renderer/PropellerRenderer.hpp"
+#include "Renderer/HelicopterBodyRenderer.hpp"
+
 class Application
 {
 public:
     Application();
     Application(unsigned int windowWidth, unsigned int windowHeight);
     void run();
+
     ~Application();
-private:
-    unsigned int width,height;
-    bool init;
+    
     
 };
 

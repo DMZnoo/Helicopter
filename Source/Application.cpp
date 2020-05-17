@@ -7,7 +7,7 @@
 
 #include "Application.hpp"
 GLFWwindow* window;
-
+unsigned int width,height;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 bool init = true;
@@ -38,7 +38,7 @@ void Application::run() {
          getchar();
          
      }
- 
+    
      glfwWindowHint(GLFW_SAMPLES, 4);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -65,51 +65,59 @@ void Application::run() {
          glfwTerminate();
          
      }
+    static double xpos,ypos;
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
     glfwSetCursorPos(window,width/2,height/2);
-    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwGetCursorPos(window, &xpos, &ypos);
     Camera camera(width,height);
-    CubeRenderer cubeRenderer;
+//    CubeRenderer cubeRenderer;
     PlatformRenderer platformRenderer("obj/landing.obj", "platform");
-    std::cout << "GUY" << std::endl;
+
     stbi_set_flip_vertically_on_load(false);
-    PlatformRenderer guy("cyborg/cyborg.obj","nanosuit");
-    std::cout << "DONE" << std::endl;
-    LineRenderer xcoor("blue.jpg",2);
-    LineRenderer ycoor("red.jpg",1);
-    LineRenderer zcoor("green.jpg",0);
+    PropellerRenderer mainPropeller("grey.jpg",glm::vec3(0,1,0), 10.0f,false);
+    PropellerRenderer subPropeller("grey.jpg",glm::vec3(0,0,1),3.0f,true);
+//    PlatformRenderer guy("cyborg/cyborg.obj", "nanosuit");
+    HelicopterBodyRenderer helicopter("helicopter/helicopter.obj");
+//    std::cout << "DONE" << std::endl;
+    LineRenderer xcoor("red.jpg",0);
+    LineRenderer ycoor("green.jpg",1);
+    LineRenderer zcoor("blue.jpg",2);
+
+    LineRenderer gridx("red.jpg",0);
+    LineRenderer gridz("blue.jpg",2);
     
     
-    LineRenderer gridx("blue.jpg",2);
-    LineRenderer gridy("red.jpg",1);
 
     SkyboxRenderer skyRenderer;
-    
     glEnable(GL_DEPTH_TEST);
-//    camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
+//    camera.lookAt(glm::vec3(0.0f,0.0f,0.0f));
      do{
          
+        
          glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
          glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//         if(init)
-//             {
-//                 camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
-//             }
-//         camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
-
+         
          camera.update();
-//         camera.update();
-//         camera.lookAt(glm::vec3(0.0f,1.0f,0.0f));
-         cubeRenderer.render(camera);
+         helicopter.render(camera);  
          platformRenderer.render(camera);
-         guy.render(camera);
+//
+//
+//         guy.render(camera);
          xcoor.render(camera);
          ycoor.render(camera);
          zcoor.render(camera);
          gridx.render(camera);
-         gridy.render(camera);
+         gridz.render(camera);
+         
+         mainPropeller.setLocation(helicopter.transferLocation());
+         mainPropeller.render(camera);
+         subPropeller.setLocation(glm::translate(helicopter.transferLocation(),glm::vec3(0.2f,5,-12.0f)));
+         subPropeller.render(camera);
+
+         
+         
          skyRenderer.render(camera);
          // Swap buffers
          glfwSwapBuffers(window);
@@ -129,8 +137,4 @@ void Application::run() {
 
 
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    
-    init = false;
-}
+

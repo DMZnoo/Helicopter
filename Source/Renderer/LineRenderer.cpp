@@ -29,10 +29,11 @@ void LineRenderer::render(Camera &camera)
     if(!ACTIVATE_GRID)
     {
             glm::mat4 model = glm::mat4(1.0f);
+
             if (xyz == 0)
-                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1,0,0));
-            else if (xyz == 1)
                 model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
+            else if (xyz == 1)
+                model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1,0,0));
             else
                 model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,0,1));
             
@@ -52,13 +53,14 @@ void LineRenderer::render(Camera &camera)
         for(int i = -15; i < 15; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
-            if (xyz == 1)
+            if (xyz == 0)
             {
                 model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
                 model = glm::translate(model, glm::vec3(i,0,0));
             }
-            else
+            else if (xyz == 2)
             {
+                
                 model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,0,1));
                 model = glm::translate(model, glm::vec3(0,i,0));
             }

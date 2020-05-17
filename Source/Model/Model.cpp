@@ -2,6 +2,8 @@
 
 void Model::loadModel(char const* path)
 {
+    minY,maxY = 0.0f;
+    minX,maxX = 0.0f;
     this->objpath = std::string(path);
    //this constructor is used when we have a model to load. Otherwise default is called
     Assimp::Importer importer;
@@ -16,6 +18,11 @@ void Model::loadModel(char const* path)
     
 }
 
+float Model::getModelHeight()
+{
+    return maxY-minY;
+}
+
 void Model::assembleModel(aiNode *node, const aiScene *scene)
 {
     for (unsigned int n = 0; n < node->mNumMeshes; n++)
@@ -28,8 +35,13 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
             glm::vec3 coor;
             
             coor.x = mesh->mVertices[x].x;
+
             coor.y = mesh->mVertices[x].y;
+            maxY = std::max(maxY,coor.y);
+            minY = std::min(minY,coor.y);
             coor.z = mesh->mVertices[x].z;
+            maxX = std::max(maxX,coor.z);
+            minX = std::min(minX,coor.z);
             vertex.Position = coor;
             
             coor.x = mesh->mNormals[x].x;
@@ -47,16 +59,22 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
             }
             else
                 vertex.TexCoords = glm::vec2(0.0f,0.0f);
+            if(mesh->mTangents != NULL)
+                {
+                    coor.x = mesh->mTangents[x].x;
+                    coor.y = mesh->mTangents[x].y;
+                    coor.z = mesh->mTangents[x].z;
+                    vertex.Tangent = coor;
+                }
+            if(mesh->mBitangents != NULL)
+                {
+                    coor.x = mesh->mBitangents[x].x;
+                    coor.y = mesh->mBitangents[x].y;
+                    coor.z = mesh->mBitangents[x].z;
+                    vertex.Bitangent = coor;
+                }
             
-            coor.x = mesh->mTangents[x].x;
-            coor.y = mesh->mTangents[x].y;
-            coor.z = mesh->mTangents[x].z;
-            vertex.Tangent = coor;
-            
-            coor.x = mesh->mBitangents[x].x;
-            coor.y = mesh->mBitangents[x].y;
-            coor.z = mesh->mBitangents[x].z;
-            vertex.Bitangent = coor;
+
             m_mesh.vertices.push_back(vertex);
         }
         
@@ -84,23 +102,24 @@ void Model::assembleModel(aiNode *node, const aiScene *scene)
             std::cout << ptr->first << std::endl;
             for(auto it = ptr->second.begin(); it != ptr->second.end(); it++)
             {
-                std::cout <<"BEFORE: "<< it -> first << std::endl;
+                
                 for(unsigned int a = 0; a < material -> GetTextureCount(it->second);a++)
                 {
                     aiString path;
                     material -> GetTexture(it->second, a, &path);
                     std::cout << path.C_Str() << std::endl;
-                    std::cout <<"LOOPING.."<< std::endl;
+                    
                     Texture texture;
                     size_t index = 0;
                     std::string temp = objpath.substr(ROOT.length(),objpath.length());
                     index = temp.find_last_of("/\\");
+                    std::cout << temp << std::endl;
                     texture.textID = m_texture.LoadTexture(IO_Util::concat(temp.substr(0,index) + "/" + std::string(path.C_Str())).c_str());
                     texture.type = it->first;
                     texture.name = path.C_Str();
                     textures.push_back(texture);
                 }
-                std::cout << "INSERTED" << std::endl;
+                
                 m_mesh.textures.insert(m_mesh.textures.end(),textures.begin(),textures.end());
                 std::vector<Texture>().swap(textures);
             }
@@ -258,7 +277,7 @@ void Model::addAttribArray(int dimensions, unsigned int stride)
 void Model::addIBO(const std::vector<GLuint> &indices)
 {
     genIBO();
-    m_renderInfo.indicesCount = indices.size();
+    m_renderInfo.indicesCount += indices.size();
     m_renderInfo.ibo_list.push_back(m_renderInfo.indicesCount);
     bindIBO();
     

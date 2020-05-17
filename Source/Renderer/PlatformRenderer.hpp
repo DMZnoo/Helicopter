@@ -10,7 +10,7 @@
 #include "../Shader/PlatformShader.hpp"
 #include "../Control/Camera.hpp"
 #include "../Model/Model.hpp"
-class PlatformRenderer {
+class PlatformRenderer : public NonCopyable{
   public:
     PlatformRenderer(std::string path,std::string type);
     

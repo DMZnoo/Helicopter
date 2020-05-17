@@ -8,7 +8,7 @@
 #include "SkyRenderer.hpp"
 
 
-SkyboxRenderer::SkyboxRenderer() { 
+SkyboxRenderer::SkyboxRenderer() {
     float vertices[] = {
         // positions
         -1.0f,  1.0f, -1.0f,
@@ -71,6 +71,9 @@ SkyboxRenderer::SkyboxRenderer() {
     m_skyTexture.LoadCubeMap(skyFaces);
     m_shader.use();
     m_shader.setInt("skybox", 0);
+    
+    
+    
 }
 
 void SkyboxRenderer::render(Camera &camera) {

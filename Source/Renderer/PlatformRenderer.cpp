@@ -32,8 +32,10 @@ void PlatformRenderer::render(Camera &camera) {
     } else if (typeModel == "nanosuit")
     {
         glDisable(GL_CULL_FACE);
+        
         model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        
 //        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,1));
     }
 
@@ -56,8 +58,6 @@ void PlatformRenderer::render(Camera &camera) {
                 num = std::to_string(normal_n++);
             else
                 num = std::to_string(height_n++);
-            
-            std::cout << num << std::endl;
             m_shader.setInt((type+num).c_str(),i);
             
             glBindTexture(GL_TEXTURE_2D,m_platform.getModelInfo()[i].textures[n].textID);

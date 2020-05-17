@@ -12,7 +12,9 @@
 std::string ROOT = "/Users/daniel/Downloads/Helicopter/Source/Resources/";
 const float PI = acos(-1);
 bool ACTIVATE_GRID = false;
-
+float PROPELLER_SPEED = 0.0f;
+bool LOCK_ON_OBJECT = false;
+float ACCELERATION = 0.0f;
 
 
 
@@ -22,3 +24,4 @@ int main( void )
     app.run();
     return 0;
 }
+

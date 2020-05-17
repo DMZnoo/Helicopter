@@ -14,7 +14,7 @@
 class CubeRenderer {
   public:
     CubeRenderer();
-    
+    glm::mat4 transferLocation();
     void render( Camera &camera);
 
   private:
@@ -23,6 +23,7 @@ class CubeRenderer {
     CubeShader m_shader;
     unsigned int cubeVAO,cubeVBO;
     std::vector<float> cubeVertices;
+    glm::mat4 model;
 };
 
 #endif /* CubeRenderer_hpp */

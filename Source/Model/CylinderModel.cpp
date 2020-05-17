@@ -22,6 +22,7 @@ CylinderModel::CylinderModel(float topR, float bottomR, float height, int sector
 }
 void CylinderModel::setup()
 {
+    
     float sectorStep = 2*PI/sectorCount;
     float sectorAngle;
     float zAngle = atan2(baseRadius-topRadius,height);
@@ -49,7 +50,7 @@ void CylinderModel::buildVertices()
     for(int i =0; i <= stackCount; ++i)
     {
         z = -(height * 0.5f) + (float)i / stackCount * height;
-        radius = baseRadius + ((float)i / stackCount) * (topRadius-baseRadius);
+        radius = baseRadius + (float)i / stackCount * (topRadius-baseRadius);
         float decentVal = 1.0f - (float)i / stackCount;
         for(int n = 0,offset = 0; n <= sectorCount; ++n,offset += 3)
         {
@@ -119,7 +120,7 @@ void CylinderModel::buildVertices()
     
     topIndex = (unsigned int)m_mesh.indices.size();
     //Build indices for the top
-    for(int i = 0, k=baseVertexIndex+1; i < sectorCount; ++i, ++k)
+    for(int i = 0, k=topVertexIndex+1; i < sectorCount; ++i, ++k)
     {
         if(i < (sectorCount - 1))
             addIndices(topVertexIndex, k, k+1);

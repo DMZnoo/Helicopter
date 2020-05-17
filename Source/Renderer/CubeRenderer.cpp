@@ -61,6 +61,7 @@ CubeRenderer::CubeRenderer() {
     m_cubeTexture.LoadTexture(IO_Util::concat("marble.jpg").c_str());
     m_shader.use();
     m_shader.setInt("cube_tc", 0);
+    model = glm::mat4(1.0f);
 }
 
 void CubeRenderer::render(Camera &camera) {
@@ -70,8 +71,14 @@ void CubeRenderer::render(Camera &camera) {
     GLCall(glDepthFunc(GL_LESS));
     m_shader.use();
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
+
+    model = glm::mat4(1.0f);
+
+//    model = glm::translate(model, MOVE);
     m_shader.SetViewMatrix(camera.getViewMatrix());
-    m_shader.SetModelMatrix(glm::mat4(1.0f));
+    m_shader.SetModelMatrix(model);
+   
+    
     m_cube.bindVAO();
     m_cubeTexture.Bind2DTexture();
     GLCall(glDrawArrays(GL_TRIANGLES, 0, 36));
@@ -80,3 +87,8 @@ void CubeRenderer::render(Camera &camera) {
     glDisableVertexAttribArray(0);
     
 }
+
+glm::mat4 CubeRenderer::transferLocation() { 
+    return model;
+}
+

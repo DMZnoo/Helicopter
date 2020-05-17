@@ -48,6 +48,7 @@ class Model : public NonCopyable {
     void assembleModel(aiNode *node, const aiScene *scene);
     void bindMesh(Mesh* mesh);
     const RenderInfo &getRendererInfo() const;
+    float getModelHeight();
     virtual ~Model();
 
   private:
@@ -59,6 +60,8 @@ class Model : public NonCopyable {
     Mesh m_mesh;
     BaseTexture m_texture;
     std::string objpath;
+    float minY,maxY;
+    float minX,maxX;
 };
 
 #endif /* Model_hpp */

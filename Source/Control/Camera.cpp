@@ -7,144 +7,82 @@
 
 #include "Camera.hpp"
 extern GLFWwindow* window;
+
 Camera::Camera(int width, int height)
+:controller(glm::vec3(0,0,0),glm::vec3(0.f))
 {
-    position = glm::vec3(0,0,3);
-    xAngle = glm::pi<float>();
-    yAngle = 0.0f;
-    initialFOV = 45.0f;
-    speed = 5.0f;
-    mouseSpeed = 0.005f;
-    windowWidth = width;
-    windowHeight = height;
+    Position = glm::vec3(0,0,0);
     i_viewMatrix = glm::mat4(1.0f);
     i_projMatrix = glm::mat4(1.0f);
-    xpos = windowWidth/2;
-    ypos = windowHeight/2;
-//    m_direction = glm::vec3(0.0f,0.0f,0.0f);
-    xAngle += mouseSpeed * float(windowWidth/2);
-    yAngle  += mouseSpeed * float( windowHeight/2);
-
+    
 }
 
 void Camera::update()
 {
-    // glfwGetTime is called only once, the first time this function is called
-        static double lastTime = glfwGetTime();
-    
-        // Compute time difference between current and last frame
-        double currentTime = glfwGetTime();
-        float deltaTime = float(currentTime - lastTime);
-    
-        glfwGetCursorPos(window, &xpos, &ypos);
-    
-        // Reset mouse position for next frame
-        glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
-    
-        // Compute new orientation
-        xAngle += mouseSpeed * float(windowWidth/2 - xpos );
-        yAngle   += mouseSpeed * float( windowHeight/2 - ypos );
-    
-    
-        // Direction : Spherical coordinates to Cartesian coordinates conversion
-        m_direction = glm::vec3 (
-            cos(yAngle) * sin(xAngle),
-            sin(yAngle),
-            cos(yAngle) * cos(xAngle)
-        );
-    
-
-        
-        // Right vector
-        glm::vec3 right = glm::vec3(
-            sin(xAngle - glm::pi<float>()/2.0f),
-            0,
-            cos(xAngle - glm::pi<float>()/2.0f)
-        );
-        
-        // Up vector
-        glm::vec3 up = glm::cross( right, m_direction );
-//    glm::vec3 up = glm::vec3(0.0f,1.0f,2.0f);
-        // Move forward
-        if (glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS){
-            position += m_direction * deltaTime * speed;
-        }
-        // Move backward
-        if (glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS){
-            position -= m_direction * deltaTime * speed;
-        }
-        // Move left
-        if (glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS){
-            position -= right * deltaTime * speed;
-        }
-        // Move right
-        if (glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS){
-            position += right * deltaTime * speed;
-        }
-        if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        {
-            position += glm::vec3(0,1,0) * deltaTime * speed;
-        }
-        if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-        {
-            position += glm::vec3(0,-1,0) * deltaTime * speed;
-        }
-        if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-        {
-            ACTIVATE_GRID = true;
-        }
-        if(glfwGetKey(window, GLFW_KEY_1) == GLFW_RELEASE)
-        {
-            ACTIVATE_GRID = false;
-        }
-        float FoV = initialFOV;
-    
-        // Projection matrix : 45∞ Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-        i_projMatrix = glm::perspective(
-                                        glm::radians(FoV), //the amount of "zoom"
-                                        static_cast<float>(windowWidth/windowHeight), //Aspect Ratio.
-                                        0.1f, //near clipping plane
-                                        100.0f); //far clipping plane
-        // Camera matrix
-        i_viewMatrix       = glm::lookAt(
-                                    position,           // Camera's current position
-                                    position+m_direction, // and looks here
-                                    up                  // Head is up (set to 0,-1,0 to look upside-down)
-                               );
-    
-        // For the next frame, the "last time" will be "now"
-        lastTime = currentTime;
-    
-}
-
-void Camera::lookAt(glm::vec3 view)
-{
-
-//        glfwGetCursorPos(window, &xpos, &ypos);
-//    xpos = windowWidth/2;
-//    ypos = windowHeight/2;
-        // Reset mouse position for next frame
-        glfwSetCursorPos(window, windowWidth/2, windowHeight/2);
-//        // Compute new orientation
-//        xAngle += mouseSpeed * float(windowWidth/2);
-//        yAngle  += mouseSpeed * float( windowHeight/2);
-
+    float FoV = 45.0f;
+    // Projection matrix : 45∞ Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
     i_projMatrix = glm::perspective(
-                                    glm::radians(45.0f), //the amount of "zoom"
-                                    static_cast<float>(windowWidth/windowHeight), //Aspect Ratio.
-                                    0.1f, //near clipping plane
-                                    100.0f); //far clipping plane
+                        glm::radians(FoV), //the amount of "zoom"
+                        static_cast<float>(width/height), //Aspect Ratio.
+                        0.1f, //near clipping plane
+                        100.0f
+    ); //far clipping plane
     
-//    std::cout << glm::to_string(m_direction) << std::endl;
-//    std::cout << "not moving" << std::endl;
-    i_viewMatrix = glm::lookAt(
-         glm::vec3(0,0,0),           // Camera's current position
-         glm::vec3(0,0,0), // and looks here
-         view               // Head is up (set to 0,-1,0 to look upside-down)
-    );
-//    std::cout << glm::to_string(i_viewMatrix) << std::endl;
+    
+    if(!LOCK_ON_OBJECT)
+    {
+        
+        Position = controller.updatePos();
+        Direction = controller.updateKeyboardInput();
+        i_viewMatrix = glm::mat4(1.0f);
+        i_viewMatrix = glm::lookAt(
+                 Position,           // Camera's current position
+                 Direction + Position, // and looks here
+                 controller.getUpVector() // Head is up (set to 0,-1,0 to look upside-down)
+            );
+    } else
+    {
+        
+        i_viewMatrix = glm::mat4(1.0f);
+        float offsetX = 10.f * sin(glm::radians(RotatedAngle));
+        float offsetZ = 10.f * cos(glm::radians(RotatedAngle));
+        Position = glm::vec3(
+             (objectPosition[0]/2 - offsetX),
+             objectPosition[1]/2,
+             (objectPosition[2]/2 - offsetZ)
+        );
+
+
+
+        controller.setLocation(Position);
+            Direction = glm::vec3(
+                  (objectPosition[0]/2 - offsetX),
+                  -(objectPosition[1]/2),
+                  (objectPosition[2]/2 - offsetZ)
+             );
+        
+            
+            i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(-RotatedAngle), glm::vec3(0,1,0));
+            i_viewMatrix = glm::translate(i_viewMatrix,glm::vec3(
+                 Direction[0],
+                 Direction[1],
+                 Direction[2]
+            ));
+            i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(180.f), glm::vec3(0,1,0));
+        
+
+                
+
+
+               
+        
+    }
+    
     
 }
+
+
+
 
 const glm::mat4& Camera::getViewMatrix()
 {
@@ -160,3 +98,17 @@ const glm::mat4& Camera::getProjectionViewMatrix()
 {
     return i_projViewMatrix;
 }
+
+void Camera::setViewMatrix(glm::mat4 viewMatrix)
+{
+    i_viewMatrix = viewMatrix;
+}
+
+void Camera::cameraPosUpdate(glm::vec3 pos, float dir) { 
+    objectPosition = pos;
+    RotatedAngle = dir;
+}
+
+
+
+
