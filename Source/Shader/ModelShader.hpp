@@ -5,8 +5,8 @@
 //  Created by JINWOO LEE on 4/05/20.
 //
 
-#ifndef PlatformShader_hpp
-#define PlatformShader_hpp
+#ifndef ModelShader_hpp
+#define ModelShader_hpp
 #include "Shader.hpp"
 class ModelShader : public Shader
 {
