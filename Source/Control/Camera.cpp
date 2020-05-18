@@ -1,6 +1,5 @@
 //
 //  Camera.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 27/04/20.
 //
@@ -37,8 +36,8 @@ void Camera::update()
         i_viewMatrix = glm::mat4(1.0f);
         i_viewMatrix = glm::lookAt(
                  Position,           // Camera's current position
-            Position+Direction, // and looks here
-                 controller.getUpVector() // Head is up (set to 0,-1,0 to look upside-down)
+            Position+Direction,     // and looks at this direction
+                 controller.getUpVector() // up vector of the camera
             );
     } else
     {
@@ -46,6 +45,8 @@ void Camera::update()
         i_viewMatrix = glm::mat4(1.0f);
         float offsetX = 10.f * sin(glm::radians(RotatedAngle));
         float offsetZ = 10.f * cos(glm::radians(RotatedAngle));
+        
+        //since camera is following the object with same the speed in this implementation, the object would not stay centered unless the camera's speed is adjusted to half. I've just modified it here. offsetX,offsetY is setting the camera's following location. it's at the tail parallel in the y axis.
         Position = glm::vec3(
              (objectPosition[0]/2 - offsetX),
              objectPosition[1]/2,
@@ -53,23 +54,25 @@ void Camera::update()
         );
 
 
-
+        //this was done so that when switched to the other (free-to-moveabout) camera, the position would be preserved
         controller.setLocation(Position);
-            Direction = glm::vec3(
-                  (objectPosition[0]/2 - offsetX),
-                  -(objectPosition[1]/2),
-                  (objectPosition[2]/2 - offsetZ)
-             );
         
-            
-            i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(-RotatedAngle), glm::vec3(0,1,0));
-            i_viewMatrix = glm::translate(i_viewMatrix,glm::vec3(
-                 Direction[0],
-                 Direction[1],
-                 Direction[2]
-            ));
-            i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(180.f), glm::vec3(0,1,0));
         
+        Direction = glm::vec3(
+              (objectPosition[0]/2 - offsetX),
+              -(objectPosition[1]/2),
+              (objectPosition[2]/2 - offsetZ)
+         );
+        
+        //rotated direction is the new direction for the camera. note that this is inverted as to account for the direction of the camera
+        i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(-RotatedAngle), glm::vec3(0,1,0));
+        i_viewMatrix = glm::translate(i_viewMatrix,glm::vec3(
+             Direction[0],
+             Direction[1],
+             Direction[2]
+        ));
+        i_viewMatrix = glm::rotate(i_viewMatrix,glm::radians(180.f), glm::vec3(0,1,0));
+    
 
                 
 

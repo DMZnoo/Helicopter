@@ -10,14 +10,14 @@
 #include "../Shader/PlatformShader.hpp"
 #include "../Control/Camera.hpp"
 #include "../Model/Model.hpp"
-class PlatformRenderer : public NonCopyable{
+class ModelRenderer : public NonCopyable{
   public:
-    PlatformRenderer(std::string path,std::string type);
-    
+    ModelRenderer(std::string path,std::string type);
     void render( Camera &camera);
-
+    void setLocation(glm::mat4 location);
   private:
     Model m_platform;
+    glm::mat4 model;
     PlatformShader m_shader;
     unsigned int diffuse_n,specular_n,normal_n,height_n;
     std::string typeModel;

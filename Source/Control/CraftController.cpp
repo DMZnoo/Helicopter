@@ -1,6 +1,5 @@
 //
 //  CraftController.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 13/05/20.
 //
@@ -33,6 +32,7 @@ glm::vec3 CraftController::updatePos() {
 }
 glm::vec3 CraftController::updateKeyboardInput() {
     
+    //locked in helicopter if true, otherwise released and free to move around.
     if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
     {
         if(glfwGetKey(window, GLFW_KEY_2) == GLFW_RELEASE)
@@ -41,9 +41,23 @@ glm::vec3 CraftController::updateKeyboardInput() {
             LOCK_ON_OBJECT = !LOCK_ON_OBJECT;
         }
     }
+    //only moving if it's above the ground. it would also turn off if you'd go around the platform and go below the platform, which can be fixed for the future.
     if(m_position[1] > 0.f)
     {
-        
+        // Move left
+        if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        {
+            //move left at the angle in which rotated
+            m_position[0] += cos(glm::radians(m_angle)) * deltaTime * throttle;
+            m_position[2] += sin(glm::radians(m_angle)) * deltaTime * throttle;
+        }
+        // Move right
+        if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        {
+            //move right at the angle in which rotated
+            m_position[0] -= cos(glm::radians(m_angle)) * deltaTime * throttle;
+            m_position[2] -= sin(glm::radians(m_angle)) * deltaTime * throttle;
+        }
         // Move forward
         if (glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS){
             
@@ -54,26 +68,30 @@ glm::vec3 CraftController::updateKeyboardInput() {
             
             m_position -= m_direction * deltaTime * throttle;
         };
-        // Move left
+        // Spin left
         if (glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS){
             
             m_angle += 2.0f;
             returnAngle = -m_angle;
+            //move left at the angle in which rotated
             m_position[0] += cos(glm::radians(m_angle)) * deltaTime * throttle;
             m_position[2] += sin(glm::radians(m_angle)) * deltaTime * throttle;
+            //new direction that the craft is facing at. 90.f so perpendicular to the angle which is horizontal to the craft.
             m_direction = glm::vec3(
                 cos(glm::radians(m_angle + 90.f)),
                 m_direction[1],
                 sin(glm::radians(m_angle + 90.f))
             );
         }
-        // Move right
+        // Spin right
         if (glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS){
             
             m_angle -= 2.0f;
             returnAngle = -m_angle;
+            //move right at the angle in which rotated
             m_position[0] -= cos(glm::radians(m_angle)) * deltaTime * throttle;
             m_position[2] -= sin(glm::radians(m_angle)) * deltaTime * throttle;
+            //new direction that the craft is facing at. 90.f so perpendicular to the angle which is horizontal to the craft.
             m_direction = glm::vec3(
                 cos(glm::radians(m_angle + 90.f)),
                 m_direction[1],
@@ -84,7 +102,9 @@ glm::vec3 CraftController::updateKeyboardInput() {
     
     if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
     {
+        //lift off
         landing = false;
+        //propeller speed for the take off is 200.f. pretty arbitrary though.
         if(PROPELLER_SPEED >= 200.0f)
         {
             
@@ -92,6 +112,7 @@ glm::vec3 CraftController::updateKeyboardInput() {
             
         }
         
+        //increase speed if it hasn't taken off of the ground
         if(PROPELLER_SPEED + ACCELERATION < 200.0f)
         {
             ACCELERATION += 0.01f;
@@ -102,6 +123,7 @@ glm::vec3 CraftController::updateKeyboardInput() {
     }
     if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
+        
         if(m_position[1]-0.01f > 0.0f)
             m_position[1] -= throttle * deltaTime;
         else
@@ -112,6 +134,7 @@ glm::vec3 CraftController::updateKeyboardInput() {
     }
     if(landing)
     {
+        //at the ground, decelerate
         if(ACCELERATION-0.01f >= 0.f)
             ACCELERATION -= 0.01f;
         else

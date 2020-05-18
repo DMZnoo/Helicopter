@@ -1,6 +1,5 @@
 //
 //  Camera.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 27/04/20.
 //

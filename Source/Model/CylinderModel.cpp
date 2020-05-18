@@ -1,6 +1,5 @@
 //
 //  CylinderModel.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 5/05/20.
 //

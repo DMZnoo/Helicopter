@@ -1,6 +1,5 @@
 //
 //  CubeTexture.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 30/04/20.
 //
@@ -14,26 +13,13 @@ unsigned int BaseTexture::LoadTexture(char const * path) {
         {
             glEnable(GL_TEXTURE_2D);
             GLCall(glBindTexture(GL_TEXTURE_2D, textID));
-            GLenum format;
-            switch(number_of_components)
-            {
-                    case 1:
-                       format = GL_RED;
-                    case 3:
-                        format = GL_RGB;
-                        
-                    case 4:
-                        format = GL_RGBA;
-                        
-            };
-
             GLCall(glTexImage2D(GL_TEXTURE_2D,0,GL_RGB8,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data));
             GLCall(glGenerateMipmap(GL_TEXTURE_2D));
             
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
             GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR));
-            GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+            GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)); //use linear filter
             stbi_set_flip_vertically_on_load(true);
             stbi_image_free(data);
         }

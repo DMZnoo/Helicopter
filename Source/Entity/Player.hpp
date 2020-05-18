@@ -1,6 +1,5 @@
 //
 //  Player.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 12/05/20.
 //

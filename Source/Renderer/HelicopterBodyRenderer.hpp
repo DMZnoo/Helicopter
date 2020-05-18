@@ -8,7 +8,7 @@
 #ifndef HelicopterBodyRenderer_hpp
 #define HelicopterBodyRenderer_hpp
 
-#include "../Shader/PlatformShader.hpp"
+#include "../Shader/ModelShader.hpp"
 #include "../Control/Camera.hpp"
 #include "../Model/Model.hpp"
 #include "../Entity/Player.hpp"
@@ -20,7 +20,7 @@ class HelicopterBodyRenderer {
     
   private:
     Model m_helicopter;
-    PlatformShader m_shader;
+    ModelShader m_shader;
 //    unsigned int diffuse_n,specular_n,normal_n,height_n;
     std::string typeModel;
     glm::mat4 model;

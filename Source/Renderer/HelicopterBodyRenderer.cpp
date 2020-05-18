@@ -30,8 +30,6 @@ void HelicopterBodyRenderer::render(Camera &camera) {
     if(LOCK_ON_OBJECT)
         player_1.updateView(camera);
     m_shader.SetViewMatrix(camera.getViewMatrix());
-        
-
     model = glm::mat4(1.0f);
     glDisable(GL_CULL_FACE);
     model = glm::scale(model, glm::vec3(0.5f));

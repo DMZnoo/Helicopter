@@ -1,6 +1,5 @@
 //
 //  CylinderModel.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 5/05/20.
 //
@@ -31,12 +30,10 @@ private:
     void loadIBO(const std::vector<GLuint> &indices, unsigned int offset);
     RenderInfo m_renderInfo;
     Vertex vertex;
-    int m_dim;
-    int m_vboCount = 0;
     std::vector<GLuint> m_buffers;
     std::vector<Mesh> modelInfo;
     Mesh m_mesh;
-    BaseTexture m_lineTexture;
+    
     int sectorCount,stackCount;
     float topRadius,baseRadius,height;
     std::vector<float> unitCircleVertices;

@@ -1,6 +1,5 @@
 //
 //  SkyTexture.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 2/05/20.
 //

@@ -1,6 +1,5 @@
 //
 //  IO_Util.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 29/04/20.
 //
@@ -25,7 +24,8 @@ class IO_Util
         std::stringstream sstr;
         
         std::ifstream fileStream(filePath);
-        if (!fileStream.is_open()) {            throw std::runtime_error("Impossible to open.\n" + filePath);
+        if (!fileStream.is_open()) {
+            throw std::runtime_error("Impossible to open.\n" + filePath);
         } else {
             sstr << fileStream.rdbuf();
             code = sstr.str();

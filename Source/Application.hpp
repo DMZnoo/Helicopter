@@ -1,6 +1,5 @@
 //
 //  Application.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 27/04/20.
 //
@@ -13,11 +12,11 @@
 #include "Shader/Shader.hpp"
 #include "Renderer/SkyRenderer.hpp"
 #include "Renderer/CubeRenderer.hpp"
-#include "Renderer/PlatformRenderer.hpp"
+#include "Renderer/ModelRenderer.hpp"
 #include "Renderer/LineRenderer.hpp"
 #include "Renderer/PropellerRenderer.hpp"
 #include "Renderer/HelicopterBodyRenderer.hpp"
-
+#include "Renderer/SphereRenderer.hpp"
 class Application
 {
 public:

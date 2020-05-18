@@ -73,8 +73,6 @@ void CubeRenderer::render(Camera &camera) {
     m_shader.SetProjectionMatrix(camera.getProjMatrix());
 
     model = glm::mat4(1.0f);
-
-//    model = glm::translate(model, MOVE);
     m_shader.SetViewMatrix(camera.getViewMatrix());
     m_shader.SetModelMatrix(model);
    

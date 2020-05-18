@@ -1,6 +1,5 @@
 //
 //  CubeTexture.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 30/04/20.
 //

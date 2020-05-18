@@ -1,6 +1,5 @@
 //
 //  Controller.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 11/05/20.
 //
@@ -42,8 +41,6 @@ glm::vec3 Controller::updatePos() {
     
 
     // Direction : Spherical coordinates to Cartesian coordinates conversion
-    
-    
     m_direction = glm::vec3 (
         cos(yTarget) * sin(xTarget),
         sin(yTarget),
@@ -103,13 +100,9 @@ glm::vec3 Controller::updateKeyboardInput()
             
             m_position += glm::vec3(0,1,0) * deltaTime * movementSpeed;
             landing = false;
+            //preserve the propeller to spin if it was.
             if(PROPELLER_SPEED > 0.f)
             {
-                if(PROPELLER_SPEED + ACCELERATION < 200.0f)
-                {
-                    ACCELERATION += 0.01f;
-                }
-                
                 PROPELLER_SPEED += ACCELERATION;
             }
 
@@ -122,6 +115,8 @@ glm::vec3 Controller::updateKeyboardInput()
                 landing = true;
             }
         }
+        
+        //if landed decelerate
         if(landing)
         {
             if(ACCELERATION-0.01f >= 0.f)
@@ -130,14 +125,18 @@ glm::vec3 Controller::updateKeyboardInput()
                 PROPELLER_SPEED = 0.f;
 
         }
+    
+        //show grid
         if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
         {
             ACTIVATE_GRID = true;
         }
+        //released state would turn off the grid
         if(glfwGetKey(window, GLFW_KEY_1) == GLFW_RELEASE)
         {
             ACTIVATE_GRID = false;
         }
+    
     if(PROPELLER_SPEED > 0.f)
     {
         if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)

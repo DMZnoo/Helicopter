@@ -1,6 +1,5 @@
 //
 //  Controller.hpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 11/05/20.
 //

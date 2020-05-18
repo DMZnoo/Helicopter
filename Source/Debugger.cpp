@@ -1,6 +1,5 @@
 //
 //  Debugger.cpp
-//  Assignment_1_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 12/03/20.
 //

@@ -1,6 +1,5 @@
 //
 //  SkyTexture.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 2/05/20.
 //
@@ -10,13 +9,13 @@
 void SkyTexture::LoadCubeMap(std::vector<std::string> sides) {
     GLCall(glGenTextures(1,&textID));
     GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, textID));
-    stbi_set_flip_vertically_on_load(false);
+    stbi_set_flip_vertically_on_load(false); //don't want to flip the image upside down. cube map has ordering.
     for(unsigned int i = 0; i < 6; i++)
         {
             unsigned char *data = stbi_load(sides[i].c_str(), &width, &height, &number_of_components, 0);
             if(data)
                 {
-                    GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data));
+                    GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data)); //mapping textures to each sides
                     stbi_image_free(data);
                 }
             else
@@ -26,9 +25,9 @@ void SkyTexture::LoadCubeMap(std::vector<std::string> sides) {
                 }
             
         }
-    GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+    GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR)); //used linear filter
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-    GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+    GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)); //edges are clamped by adj. sides
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
     GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
     

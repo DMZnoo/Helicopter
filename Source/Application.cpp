@@ -1,6 +1,5 @@
 //
 //  Application.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 27/04/20.
 //
@@ -36,10 +35,12 @@ void Application::run() {
          
      }
     
+    //set sampling size
      glfwWindowHint(GLFW_SAMPLES, 4);
+    //set version, has to equal to shader's version
      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // MacOS compat.
      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
  
     
@@ -62,22 +63,29 @@ void Application::run() {
          glfwTerminate();
          
      }
-    static double xpos,ypos;
+    
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    //capture cursor
     glfwSetInputMode(window,GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+    //set initially to middle of the viewport
     glfwSetCursorPos(window,width/2,height/2);
-    glfwGetCursorPos(window, &xpos, &ypos);
+    
+    //free flow camera (can move any where without the character or an object
     Camera camera(width,height);
-//    CubeRenderer cubeRenderer;
-    PlatformRenderer platformRenderer("obj/landing.obj", "platform");
+    
+    //<-----Renderers---->
+    CubeRenderer cubeRenderer;
+    
+    ModelRenderer platformRenderer("obj/landing.obj", "platform");
 
     stbi_set_flip_vertically_on_load(false);
     PropellerRenderer mainPropeller("grey.jpg",glm::vec3(0,1,0), 10.0f,false);
     PropellerRenderer subPropeller("grey.jpg",glm::vec3(0,0,1),3.0f,true);
-//    PlatformRenderer guy("cyborg/cyborg.obj", "nanosuit");
+    stbi_set_flip_vertically_on_load(false);
+    ModelRenderer guy("cyborg/cyborg.obj", "nanosuit");
     HelicopterBodyRenderer helicopter("helicopter/helicopter.obj");
-//    std::cout << "DONE" << std::endl;
+    
     LineRenderer xcoor("red.jpg",0);
     LineRenderer ycoor("green.jpg",1);
     LineRenderer zcoor("blue.jpg",2);
@@ -85,6 +93,9 @@ void Application::run() {
     LineRenderer gridx("red.jpg",0);
     LineRenderer gridz("blue.jpg",2);
     
+    SphereRenderer spherex("blue.jpg",   glm::vec3(1,0,0),5.f);
+    SphereRenderer spherey("green.jpg", glm::vec3(0,1,0),5.f);
+    SphereRenderer spherez("red.jpg",  glm::vec3(0,0,1),5.f);
     
 
     SkyboxRenderer skyRenderer;
@@ -99,22 +110,29 @@ void Application::run() {
          camera.update();
          
          platformRenderer.render(camera);
-//
-//
-//         guy.render(camera);
+
+         cubeRenderer.render(camera);
          xcoor.render(camera);
          ycoor.render(camera);
          zcoor.render(camera);
          gridx.render(camera);
          gridz.render(camera);
-         
+         spherex.render(camera);
+         spherey.render(camera);
+         spherez.render(camera);
+         //hierchical modeling Helicopter body's location -> basis for main propeller -> basis for subpropeller at the tail etc.
          mainPropeller.setLocation(helicopter.transferLocation());
          mainPropeller.render(camera);
          subPropeller.setLocation(glm::translate(helicopter.transferLocation(),glm::vec3(0.2f,5,-12.0f)));
          subPropeller.render(camera);
+         
+         //"guy" was just an object i've loaded to test if complex objects would be able to load through my code. now sitting inside the helicopter.. can be modified to be sitting but would require some work (can be done in blender using bones)
+         guy.setLocation(glm::translate(helicopter.transferLocation(),glm::vec3(0.8f,2.f,4.0f)));
+         guy.render(camera);
          helicopter.render(camera);
          
          
+         //skybox
          skyRenderer.render(camera);
          // Swap buffers
          glfwSwapBuffers(window);

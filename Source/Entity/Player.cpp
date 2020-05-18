@@ -1,6 +1,5 @@
 //
 //  Player.cpp
-//  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 12/05/20.
 //
@@ -19,6 +18,7 @@ glm::mat4 Player::update(glm::mat4 target)
 {
     if(LOCK_ON_OBJECT)
     {
+        //adjust the direction by the object's direction.
             glm::vec3 newDir = controller.updateKeyboardInput();
             RotatedAngle = controller.updateAngle();
             Direction = newDir;
