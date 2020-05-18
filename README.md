@@ -17,7 +17,7 @@ To run the code,
 4. Generate
 5. Open
 
-##Control
+## Control
 
 w : move forward
 a : turn left
