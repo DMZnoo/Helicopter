@@ -15,7 +15,7 @@ To run the code,
 3. Configure till the red line disappears
 4. Generate
 5. Open
-6. Go to Application.cpp file and type in your path to "/Helicopter/Source/Resources/" (could've been done in Cmake..)
+6. Go to main.cpp file and type in your path to "/Helicopter/Source/Resources/" (could've been done in Cmake..)
 
 ## Control
 
