@@ -1,5 +1,5 @@
 //
-//  PlatformShader.cpp
+//  ModelShader.cpp
 //  Assignment_2_Jinwoo_Lee
 //
 //  Created by JINWOO LEE on 4/05/20.
