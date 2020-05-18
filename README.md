@@ -12,9 +12,20 @@ All other required libraries are included as static libraries.
 To run the code,
 
 1. Open CMake
-2. Set build path and set the source dir as the cloned repo
+2. Set build path to your own liking and set the source dir as the repo (should be "YOUR_DIR/Helicopter/")
 3. Configure till the red line disappears
 4. Generate
 5. Open
 
+##Control
 
+w : move forward
+a : turn left
+d : turn right
+s : move backwards
+
+<- : move left
+-> : move right
+
+left-shift : increase latitude
+space-bar : decrease latitude
