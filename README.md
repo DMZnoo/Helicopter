@@ -19,13 +19,13 @@ To run the code,
 
 ## Control
 
-w : move forward \n
-a : turn left
-d : turn right
-s : move backwards
+w : move forward <br />
+a : turn left <br />
+d : turn right <br />
+s : move backwards <br />
 
-<- : move left
--> : move right
+<- : move left <br />
+-> : move right <br />
 
-left-shift : increase latitude
-space-bar : decrease latitude
+left-shift : increase latitude <br />
+space-bar : decrease latitude <br />
