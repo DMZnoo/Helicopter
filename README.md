@@ -4,10 +4,9 @@
 
 First, install the following,
 1. CMake
-2. Visual Studio/Xcode. 
-Other IDEs such as Eclipse won't compile with CMake and libraries will have to be manually added
+2. Visual Studio/Xcode
 
-All other required libraries are included as static libraries.
+All of the required libraries are included as static libraries.
 
 To run the code,
 
