@@ -19,7 +19,7 @@ To run the code,
 
 ## Control
 
-w : move forward
+w : move forward \n
 a : turn left
 d : turn right
 s : move backwards
