@@ -29,3 +29,8 @@ s : move backwards <br />
 
 left-shift : increase latitude <br />
 space-bar : decrease latitude <br />
+
+
+## Screen Shots
+![Alt text](https://github.com/DMZnoo/Helicopter/blob/master/view1.png?raw=true "View 1")
+![Alt text](https://github.com/DMZnoo/Helicopter/blob/master/view2.png?raw=true "View 2")
