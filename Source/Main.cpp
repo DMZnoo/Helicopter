@@ -7,8 +7,8 @@
 
 // Include GLFW
 #include "Application.hpp"
-// Include GLM
-std::string ROOT = "/Users/daniel/Downloads/Helicopter-2/Source/Resources/";
+//Replace '{ROOT}' with your root to the source folder
+std::string ROOT = "{ROOT}/Helicopter-2/Source/Resources/";
 const float PI = acos(-1);
 bool ACTIVATE_GRID = false;
 float PROPELLER_SPEED = 0.0f;
